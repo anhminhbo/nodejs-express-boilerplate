@@ -2,9 +2,9 @@
   "name": "nodejs-express-boilerplate",
   "version": "1.0.0",
   "description": "My nodejs express boilerplate for uni",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon ./index.js",
+    "dev": "nodemon src/server.js",
     "debug": "eslint -- -- src",
     "fix": "eslint --fix src"
   },
