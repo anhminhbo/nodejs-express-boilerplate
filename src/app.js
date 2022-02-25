@@ -37,11 +37,11 @@ app.use(cors());
 // set this limit to API calls only
 const limiter = rateLimit({
   max: 20, //   max number of limits
-  windowMs: 5 * 60 * 1000, // 15 minutes
+  windowMs: 5 * 60 * 1000, // 5 minutes
   message: ' Too many req from this IP , please Try  again in 5 minutes!',
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-  skipSuccessfulRequests: true,
+  skipSuccessfulRequests: true, // skip if the request is succesful
 });
 
 app.use('/api', limiter);
