@@ -1,10 +1,13 @@
-const express = require('express');
-
-const app = express();
+const path = require('path');
+const dotenv = require('dotenv').config({ path: path.join(__dirname, '/config.env') });
+const morgan = require('morgan');
 
 const port = process.env.PORT || '8000';
 
-app.get('/', (req, res) => {
+const app = require('./app.js');
+
+
+app.get('/food', (req, res) => {
   res.status(200).send('WHATABYTE: Food For Devs');
 });
 
