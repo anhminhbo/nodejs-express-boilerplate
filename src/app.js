@@ -1,3 +1,4 @@
+// App module will handle all application logic from security to business logic
 const express = require('express');
 
 const app = express();
