@@ -2,5 +2,4 @@
 // For example query db, handle complex business logic like validation,...
 const UserService = require('./user.service');
 
-console.log(UserService);
 module.exports = { UserService };

@@ -10,6 +10,8 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const path = require('path');
 
+const { AppError, ErrorCode } = require('./utils');
+const { globalErrorHandler } = require('./middlewares');
 // Get router
 const { UserRouter } = require('./routes');
 
@@ -66,5 +68,13 @@ app.use(xss()); // protect from molision code coming from html
 
 // Use specific Router to handle each end point
 app.use('/api/v1/users', UserRouter);
+
+// handling all (get,post,update,delete.....) unhandled routes
+app.use('*', (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on the server`, 404, ErrorCode.UrlNotFound));
+});
+
+// error handling middleware
+app.use(globalErrorHandler);
 
 module.exports = app;
