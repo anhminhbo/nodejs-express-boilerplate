@@ -1,13 +1,15 @@
 // Utils provides different function for handling errors, helper functions
 const catchAsync = require('./catchAsync');
-const AppError = require('./AppError');
+const AppError = require('../services/response/AppError');
 const { dbConnection, dbDisconnect } = require('./dbHandler');
-const ErrorCode = require('./ErrorCode');
+const Error = require('../config/constant/Error');
+const Success = require('../services/response/Success');
 
 module.exports = {
   catchAsync,
   AppError,
-  ErrorCode,
+  Error,
+  Success,
   dbConnection,
   dbDisconnect,
 };

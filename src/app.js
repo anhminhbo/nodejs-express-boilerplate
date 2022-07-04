@@ -10,10 +10,11 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const path = require('path');
 
-const { AppError, ErrorCode } = require('./utils');
+const { ResponseService } = require('./services');
+const Error = require('./config/constant/Error');
 const { globalErrorHandler } = require('./middlewares');
 // Get router
-const { UserRouter } = require('./routes');
+const { UserRouter } = require('./routers');
 
 // Use morgan to log any requests come to server
 if (process.env.NODE_ENV === 'development') {
@@ -71,7 +72,7 @@ app.use('/api/v1/users', UserRouter);
 
 // handling all (get,post,update,delete.....) unhandled routes
 app.use('*', (req, res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on the server`, 404, ErrorCode.UrlNotFound));
+  next(ResponseService.throwError(Error.UrlNotFound.statusCode, Error.UrlNotFound.errorCode, Error.UrlNotFound.message));
 });
 
 // error handling middleware

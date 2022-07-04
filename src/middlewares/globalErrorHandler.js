@@ -1,16 +1,22 @@
-const { AppError, ErrorCode } = require('../utils');
+/* eslint-disable no-param-reassign */
+const { ResponseService } = require('../services');
+const Error = require('../config/constant/Error');
 
-const handleCastErrorDB = (err) => {
-  const message = `Invalid ${err.path}: ${err.value}.`;
-  return new AppError(message, 400, ErrorCode.CastError);
+const handleCastErrorDB = () => {
+  // const message = `Invalid ${err.path}: ${err.value}.`;
+  return ResponseService.newError(Error.CastError.statusCode, Error.CastError.errorCode, Error.CastError.message);
 };
 
-const handleDuplicateFieldsDB = (err) => {
-  const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
-  console.log(value);
+const handleDuplicateFieldsDB = () => {
+  // const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
+  // console.log(value);
 
-  const message = `Duplicate field value: ${value}. Please use another value!`;
-  return new AppError(message, 400, ErrorCode.DuplicateFieldError);
+  // const message = `Duplicate field value: ${value}. Please use another value!`;
+  return ResponseService.newError(
+    Error.DuplicateFieldError.statusCode,
+    Error.DuplicateFieldError.errorCode,
+    Error.DuplicateFieldError.message
+  );
 };
 
 // const handleValidationErrorDB = (err) => {
@@ -23,57 +29,37 @@ const handleDuplicateFieldsDB = (err) => {
 const sendErrorDev = (err, res) => {
   console.log(err);
   res.status(err.statusCode).json({
-    status: err.status,
-    error: err,
-    message: err.message,
+    code: 1,
+    message: 'Unsuccessfully',
+    statusCode: err.statusCode,
+    errorCode: err.errorCode,
+    errorMessage: err.message,
     stack: err.stack,
   });
 };
 
 const sendErrorProd = (err, res) => {
-  // Operational, trusted error: send message to client
-  if (err.isOperational) {
-    res.status(err.statusCode).json({
-      error: err,
-      status: err.status,
-    });
-
-    // Programming or other unknown error: don't leak error details
-  } else {
-    // 1) Log error
-    console.error('ERROR 💥', err);
-
-    // 2) Send generic message
-    res.status(500).json({
-      status: 'error',
-      message: 'Something went very wrong!',
-    });
-  }
+  res.status(err.statusCode).json({
+    code: 1,
+    message: 'Unsuccessfully',
+    statusCode: err.statusCode,
+    errorCode: err.errorCode,
+    errorMessage: err.message,
+  });
 };
 
+// eslint-disable-next-line no-unused-vars
 module.exports = (err, req, res, next) => {
   // console.log(err.stack);
 
-  /* eslint-disable no-param-reassign */
-  err.statusCode = err.statusCode || 500;
-
-  /* eslint-enable no-param-reassign */
-
-  //   Need json Parse and stringtify for deep copy of the obj
-  let error = JSON.parse(JSON.stringify(err));
-  error.message = err.message;
-  error.stack = err.stack;
-
-  if (error.name === 'CastError') error = handleCastErrorDB(error);
-  if (error.code === 11000) error = handleDuplicateFieldsDB(error);
+  if (err.name === 'CastError') err = handleCastErrorDB();
+  if (err.code === 11000) err = handleDuplicateFieldsDB();
 
   if (process.env.NODE_ENV === 'development') {
-    console.log(error.message);
-
-    sendErrorDev(error, res);
+    sendErrorDev(err, res);
   } else if (process.env.NODE_ENV === 'production') {
     // if (error.name === 'ValidationError') error = handleValidationErrorDB(error);
 
-    sendErrorProd(error, res);
+    sendErrorProd(err, res);
   }
 };
