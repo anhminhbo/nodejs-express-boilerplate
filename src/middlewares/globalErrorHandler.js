@@ -4,7 +4,7 @@ const { Error } = require('../config');
 
 const handleCastErrorDB = () => {
   // const message = `Invalid ${err.path}: ${err.value}.`;
-  return ResponseService.newError(Error.CastError.statusCode, Error.CastError.errCode, Error.CastError.message);
+  return ResponseService.newError(Error.CastError.errCode, Error.CastError.errMessage);
 };
 
 const handleDuplicateFieldsDB = () => {
@@ -12,7 +12,7 @@ const handleDuplicateFieldsDB = () => {
   // console.log(value);
 
   // const message = `Duplicate field value: ${value}. Please use another value!`;
-  return ResponseService.newError(Error.DuplicateFieldError.errCode, Error.DuplicateFieldError.message);
+  return ResponseService.newError(Error.DuplicateFieldError.errCode, Error.DuplicateFieldError.errMessage);
 };
 
 // const handleValidationErrorDB = (err) => {
@@ -29,7 +29,7 @@ const sendErrorDev = (err, res) => {
     message: 'Unsuccessfully',
     statusCode: err.statusCode,
     errCode: err.errCode,
-    errorMessage: err.message,
+    errMessage: err.message,
     stack: err.stack,
   });
 };
@@ -40,7 +40,7 @@ const sendErrorProd = (err, res) => {
     message: 'Unsuccessfully',
     statusCode: err.statusCode,
     errCode: err.errCode,
-    errorMessage: err.message,
+    errMessage: err.message,
   });
 };
 

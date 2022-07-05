@@ -1,7 +1,7 @@
 const { UserModel } = require('../../models');
 const { dbConnection, dbDisconnect } = require('../../utils');
 const ResponseService = require('../response/response.service');
-// const {Error} = require('../../config');
+// const { Error } = require('../../config');
 
 const createUser = async (userBody) => {
   const db = await dbConnection();

@@ -10,7 +10,7 @@ const createUser = catchAsync(async (req, res) => {
 const getUser = catchAsync(async (req, res) => {
   const user = await UserService.getUserById(req.params.userId);
   if (!user) {
-    throw ResponseService.newError(Error.UserNotFound.statusCode, Error.UserNotFound.errCode, Error.UserNotFound.message);
+    throw ResponseService.newError(Error.UserNotFound.errCode, Error.UserNotFound.errMessage);
   }
   res.render('home', { user });
 });
