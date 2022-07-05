@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
 const { ResponseService } = require('../services');
-const Error = require('../config/constant/Error');
+const { Error } = require('../config');
 
 const handleCastErrorDB = () => {
   // const message = `Invalid ${err.path}: ${err.value}.`;
-  return ResponseService.newError(Error.CastError.statusCode, Error.CastError.errorCode, Error.CastError.message);
+  return ResponseService.newError(Error.CastError.statusCode, Error.CastError.errCode, Error.CastError.message);
 };
 
 const handleDuplicateFieldsDB = () => {
@@ -12,11 +12,7 @@ const handleDuplicateFieldsDB = () => {
   // console.log(value);
 
   // const message = `Duplicate field value: ${value}. Please use another value!`;
-  return ResponseService.newError(
-    Error.DuplicateFieldError.statusCode,
-    Error.DuplicateFieldError.errorCode,
-    Error.DuplicateFieldError.message
-  );
+  return ResponseService.newError(Error.DuplicateFieldError.errCode, Error.DuplicateFieldError.message);
 };
 
 // const handleValidationErrorDB = (err) => {
@@ -32,7 +28,7 @@ const sendErrorDev = (err, res) => {
     code: 1,
     message: 'Unsuccessfully',
     statusCode: err.statusCode,
-    errorCode: err.errorCode,
+    errCode: err.errCode,
     errorMessage: err.message,
     stack: err.stack,
   });
@@ -43,7 +39,7 @@ const sendErrorProd = (err, res) => {
     code: 1,
     message: 'Unsuccessfully',
     statusCode: err.statusCode,
-    errorCode: err.errorCode,
+    errCode: err.errCode,
     errorMessage: err.message,
   });
 };

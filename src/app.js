@@ -11,8 +11,10 @@ const xss = require('xss-clean');
 const path = require('path');
 
 const { ResponseService } = require('./services');
-const Error = require('./config/constant/Error');
+const { Error } = require('./config');
 const { globalErrorHandler } = require('./middlewares');
+
+require('dotenv').config({ path: path.join(__dirname, '/config.env') });
 // Get router
 const { UserRouter } = require('./routers');
 
@@ -72,7 +74,7 @@ app.use('/api/v1/users', UserRouter);
 
 // handling all (get,post,update,delete.....) unhandled routes
 app.use('*', (req, res, next) => {
-  next(ResponseService.throwError(Error.UrlNotFound.statusCode, Error.UrlNotFound.errorCode, Error.UrlNotFound.message));
+  next(ResponseService.newError(Error.UrlNotFound.errCode, Error.UrlNotFound.errMessage));
 });
 
 // error handling middleware

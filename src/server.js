@@ -1,6 +1,4 @@
 // Server module only handle request from browser, opening port and handle Exceptions
-const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '/config.env') });
 
 // // handle uncaught Exception
 // process.on('uncaughtException', (error) => {
@@ -13,7 +11,7 @@ require('dotenv').config({ path: path.join(__dirname, '/config.env') });
 // Set up the application for the server
 const app = require('./app');
 
-const port = process.env.PORT || '7000';
+const port = process.env.PORT || '3000';
 
 const server = app.listen(port, () => {
   console.log(`Listening to requests on http://localhost:${port}`);
