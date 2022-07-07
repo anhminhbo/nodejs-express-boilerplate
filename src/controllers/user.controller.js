@@ -1,6 +1,6 @@
 const httpStatus = require('http-status');
-const { ResponseService, UserService } = require('../../services');
-const { catchAsync } = require('../../utils');
+const { ResponseService, UserService } = require('../services');
+const { catchAsync } = require('../utils');
 
 const createUser = catchAsync(async (req, res) => {
   const user = await UserService.createUser(req.body);
