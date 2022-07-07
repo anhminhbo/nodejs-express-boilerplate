@@ -8,6 +8,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+const cookieParser = require('cookie-parser');
 const path = require('path');
 
 const { ResponseService } = require('./services');
@@ -32,6 +33,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // view engine setup for serving ssr in views folder
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+// Set up for express to read cookies send by frontend
+app.use(cookieParser());
 
 // set security http headers
 app.use(helmet());
