@@ -4,9 +4,13 @@
   "description": "My nodejs express boilerplate for uni",
   "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon src/server.js",
     "debug": "eslint -- -- src",
-    "fix": "eslint --fix src"
+    "fix": "eslint --fix src",
+    "start": "node src/server.js",
+    "server": "nodemon src/server.js",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
   "repository": {
     "type": "git",

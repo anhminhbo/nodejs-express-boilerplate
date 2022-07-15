@@ -73,6 +73,15 @@ app.use(xss()); // protect from molision code coming from html
 //   next();
 // });
 
+// Deployment
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '..', 'frontend', 'build')));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'build', 'index.html'));
+    res.end();
+  });
+}
 // Use specific Router to handle each end point
 app.use('/api/v1/users', UserRouter);
 
